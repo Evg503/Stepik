@@ -3,7 +3,7 @@
 #include <iostream>
 
 using namespace std;
-
+/*
 string trim(const string& s)
 {
 	const string delims = " \r\n\t";
@@ -27,6 +27,9 @@ int main1()
 	for( const auto& s:commands)
 		cout << "Run:[" << s << "]" << endl;
 }
+*/
+#include <stdio.h>
+#include <unistd.h>
 
 int main()
 {
