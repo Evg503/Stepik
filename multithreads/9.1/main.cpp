@@ -64,7 +64,7 @@ void runconnection(int sock)
 				filename += *p;
 		
 			int fd = open(filename.c_str(), O_RDONLY);
-			if(fd > 0)
+			if(fd >= 0)
 			{
 				off_t fsize = lseek(fd, 0, SEEK_END);
 				lseek(fd, 0, SEEK_SET);
@@ -77,6 +77,8 @@ void runconnection(int sock)
 				{
 					printf( "Warning: sendfile returned %d (errno %d)\n", rv, errno);
 				}
+				close(fd);
+
 
 			}
 			else
