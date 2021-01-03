@@ -126,7 +126,7 @@ int mainfun()
 }
 
 #include <list>
-int main()
+int mainlists()
 {
 std::list<int> l = {1,2,3};
 l.insert(l.begin(), 4);
@@ -153,4 +153,95 @@ for(auto i:l)
 
 }
 
+template<class FwdIt>
+FwdIt remove_nth(FwdIt p, FwdIt q, size_t n)
+{
+    FwdIt i = p;
+    for(; p != q; --n)
+    {
+        if(n==0)
+        {
+            ++p;
+            continue;
+        }
+        *i++ = *p++;
+    }
+    return i;
+}
 
+#include <vector>
+int main_remove_nth(){
+std::vector<int> v = {0,1,2,3,4,5,6,7,8,9,10};
+for(auto i:v)
+        std::cout << i << ' ';
+std::cout <<std::endl;
+
+v.erase(remove_nth(v.begin(), v.end(), 11), v.end());
+// теперь в v = {0,1,2,3,4,6,7,8,9,10};
+
+for(auto i:v)
+        std::cout << i << ' ';
+std::cout <<std::endl;
+}
+
+
+struct ElementN 
+{
+    explicit ElementN(size_t n)
+        : n(n), i(0)
+    {}    
+
+    template<class T>    
+    bool operator()(T const& t) { return (i++ == n); }
+    
+    size_t n;
+    size_t i;
+};
+
+#include <algorithm>
+
+int mainElementN()
+{
+    std::vector<int> v = { 0,1,2,3,4,5,6,7,8,9,10,11,12 };
+
+    v.erase(std::remove_if(v.begin(), v.end(), ElementN(3)), v.end());
+
+    for (int i: v)
+        std::cout << i << ' ';
+
+    return 0;
+}
+#include <algorithm>
+#include <vector>
+
+template<class Iterator>
+size_t count_permutations(Iterator p, Iterator q)
+{
+    using T = typename std::iterator_traits<Iterator>::value_type;
+    size_t count = 0;
+    std::vector<T> v(p,q);
+    auto b = v.begin();
+    auto e = v.end();
+    std::sort(b, e);
+    do{
+        if(std::adjacent_find(b, e) == e) ++count;
+    }while(std::next_permutation(b, e));
+    return count;
+}
+
+#include <array>
+
+int main()
+{
+std::array<int, 3> a1 = {1,2,3};
+size_t c1 = count_permutations(a1.begin(), a1.end()); // 6
+
+std::cout << "c1(6)=" << c1 <<std::endl;
+
+
+std::array<int, 5> a2 = {1,2,3,4,4};
+size_t c2 = count_permutations(a2.begin(), a2.end()); // 36
+
+std::cout << "c2(36)=" << c2 <<std::endl;
+
+}
